@@ -1,6 +1,6 @@
 # Digital Humanities Utilities
 
-Python package containing various utilities relevant in the field of digital humanities.
+Python 3.6+ package containing various utilities relevant in the field of digital humanities.
 
 ```shell
 $ pip install dh-utils
