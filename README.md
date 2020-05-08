@@ -12,8 +12,8 @@ Tag languages in a given string based on its script:
 
 ```pycon
 >>> from dh_utils import tei as t
->>> t.tag('Hebr', 'A line contaning the following inline hebrew אם שאותם הענינים יצאו חוץ מדעתו text')
-'A line contaning the following hebrew <foreign xml:lang="he-Hebr">אם שאותם הענינים יצאו חוץ מדעתו</foreign> text'
+>>> t.tag('Hebr', 'A line contaning the hebrew אגוז מלך inline')
+'A line contaning the hebrew <foreign xml:lang="he-Hebr">אגוז מלך</foreign> inline'
 ```
 
 Decompose any unicode string:
