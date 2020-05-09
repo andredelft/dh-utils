@@ -27,8 +27,8 @@ RE_STR = {
     for script in RANGE.keys()
 }
 
-# Language specific exceptions
-# RE_STR['Latn'] = '(?<!&)' + RE_STR['Latn']
+# Language specific additions
+RE_STR['Latn'] = '(?<!&#?[a-zA-Z0-9]*)' + RE_STR['Latn'] # Avoid escaped xml chars
 
 RE = {script: regex.compile(RE_STR[script]) for script in RANGE.keys()}
 
@@ -39,9 +39,9 @@ DEFAULT_LCS = {
     'Latn': 'la-Latn'
 }
 
-def tag(script, string, language_code = '', escape_xml = False):
+def tag(script, string, language_code = '', escape_xml = True):
     if escape_xml:
-        string = unescape(string)
+        string = escape(string)
     if script not in RE.keys():
         raise LanguageNotSupported(
             f'Language "{script}" not (yet) supported, please use one of: '
@@ -49,44 +49,30 @@ def tag(script, string, language_code = '', escape_xml = False):
         )
     if not language_code:
         language_code = DEFAULT_LCS[script]
-    new_string = RE[script].sub(
+    return RE[script].sub(
         f'<foreign xml:lang="{language_code}">\g<0></foreign>', string
     )
-    # Escape everything, then unescape <foreign> tags again
-    if escape_xml:
-        new_string = escape(new_string)
-        new_string = new_string.replace(
-            f'&lt;foreign xml:lang="{language_code}"&gt;',
-            f'<foreign xml:lang="{language_code}">'
-        ).replace(
-            '&lt;/foreign&gt;',
-            '</foreign>'
-        )
-    return new_string
 
 XML_NS = '{http://www.w3.org/XML/1998/namespace}'
 
-# Still some WIP
-
-def tag_xml(fname, scripts, language_codes = []):
-    if not language_codes:
-        language_codes = [DEFAULT_LCS[script] for script in scripts]
+def tag_xml(fname, script, language_code = ''):
+    if not language_code:
+        language_code = DEFAULT_LCS[script]
     tree = etree.parse(fname)
     root = tree.getroot()
     NS = f'{{{root.nsmap[None]}}}' if None in root.nsmap.keys() else ''
     for string in etree.ETXPath(f'//{NS}body//text()')(root):
         parent = string.getparent()
-        new_content = str(string)
-        for script, language_code in zip(scripts, language_codes):
-            # Check first if first ancestor with xml:lang doesn't already declares
-            # the language code to be inserted
-            if string.is_text:
-                lang_parent = parent.xpath(f'ancestor-or-self::*[@xml:lang][1]')
-            elif string.is_tail:
-                lang_parent = parent.xpath(f'ancestor::*[@xml:lang][1]')
+        new_content = escape(str(string))
+        # Check first if first ancestor with xml:lang doesn't already declares
+        # the language code to be inserted
+        if string.is_text:
+            lang_parent = parent.xpath(f'ancestor-or-self::*[@xml:lang][1]')
+        elif string.is_tail:
+            lang_parent = parent.xpath(f'ancestor::*[@xml:lang][1]')
 
-            if (not lang_parent) or (lang_parent[0].attrib[f'{XML_NS}lang'] != language_code):
-                new_content = tag(script, new_content, language_code, escape_xml = True)
+        if (not lang_parent) or (lang_parent[0].attrib[f'{XML_NS}lang'] != language_code):
+            new_content = tag(script, new_content, language_code, escape_xml = False)
 
         # Create XML tree from tagged content and append to existing tree
         try:

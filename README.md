@@ -16,6 +16,12 @@ Tag languages in a given string based on its script:
 'A line contaning the hebrew <foreign xml:lang="he-Hebr">אגוז מלך</foreign> inline'
 ```
 
+It is also possible to tag a given language based on its script in a TEI XML document (NB: file will be overwritten!):
+
+```pycon
+>>> t.tag_xml('path/to/file.xml', 'Arab')
+```
+
 Decompose any unicode string:
 
 ```pycon
