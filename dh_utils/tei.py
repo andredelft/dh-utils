@@ -91,5 +91,5 @@ def tag_xml(fname, script, language_code = ''):
             for i,el in enumerate(new_xml_root.getchildren()):
                 grandparent.insert(i_parent + 1 + i, el)
 
-    with open(fname, 'w') as f:
+    with open(fname, 'w', encoding = 'utf-8') as f:
         f.write(etree.tostring(tree, encoding = 'unicode'))
