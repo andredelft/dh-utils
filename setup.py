@@ -9,7 +9,7 @@ with open(path.join(here, 'README.md')) as f:
 
 setup(
     name = 'dh-utils',
-    version = '0.1.4',
+    version = '0.1.5',
     description = 'Python package containing various utilities relevant in the field of digital humanities.',
     packages = find_packages(),
     install_requires = ['regex', 'lxml'],
