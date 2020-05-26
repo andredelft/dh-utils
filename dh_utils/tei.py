@@ -11,7 +11,8 @@ RANGE = {
             '\u066d-\u066f\u0671-\u06d5\u06de\u06e5\u06e6\u06e9\u06ee-\u06ff',
     'Copt': '\u03e2-\u03ef\u2c80-\u2cff\u2e0c\u2e0d',
     'Hebr': '\u05d0-\u05ff\ufb20-\ufb4f',
-    'Latn': 'a-zA-Z0-9\u00c0-\u00ff\u1e00-\u1ef9'
+    'Latn': 'a-zA-Z0-9\u00c0-\u00ff\u1e00-\u1ef9',
+    'Cyrs': '\u0400-\u0482\u048a-\u04ff'
 }
 
 COMBINING_PUNCT = {
@@ -19,7 +20,8 @@ COMBINING_PUNCT = {
             '\u0670\u06d6-\u06dd\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed',
     'Copt': '\u0300-\u0361',
     'Hebr': '\u0590-\u05cf\ufb1d-\ufb1f',
-    'Latn': '.,()!:?;'
+    'Latn': '.,()!:?;',
+    'Cyrs': '\u0301\u20dd\u0483-\u0489'
 }
 
 RE_STR = {
@@ -36,16 +38,19 @@ DEFAULT_LCS = {
     'Arab': 'ar-Arab',
     'Copt': 'cop-Copt',
     'Hebr': 'he-Hebr',
-    'Latn': 'la-Latn'
+    'Latn': 'la-Latn',
+    'Cyrl': 'cu-Cyrl'
 }
 
-def tag(script, string, language_code = '', escape_xml = True):
+AVAILABLE_SCRIPTS = list(DEFAULT_LCS.keys())
+
+def tag(string, script, language_code = '', escape_xml = True):
     if escape_xml:
         string = escape(string)
     if script not in RE.keys():
         raise LanguageNotSupported(
             f'Language "{script}" not (yet) supported, please use one of: '
-            + ', '.join(DEFAULT_LCS.keys())
+            + ', '.join(AVAILABLE_SCRIPTS)
         )
     if not language_code:
         language_code = DEFAULT_LCS[script]
