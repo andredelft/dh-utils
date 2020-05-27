@@ -6,7 +6,7 @@ Python 3.6+ package containing various utilities relevant in the field of digita
 $ pip install dh-utils
 ```
 
-## Some examples
+## TEI utilities
 
 Tag languages in a given string based on its script:
 
@@ -26,8 +26,16 @@ The available scripts are stored in `AVAILABLE_SCRIPTS` and are enumerated below
 
 ```pycon
 >>> t.AVAILABLE_SCRIPTS
-['Arab', 'Copt', 'Hebr', 'Latn', 'Cyrs']
+['Arab', 'Copt', 'Hebr', 'Latn', 'Cyrl']
 ```
+
+Default language-script codes are used to tag the scripts (stored in `DEFAULT_LCS`), which can be adjusted using the `language_code` keyword argument:
+
+```pycon
+>>> t.tag_xml('path/to/file.xml', 'Cyrl', language_code = 'ov-Cyrs')
+```
+
+## Unicode utilities
 
 Decompose any unicode string:
 

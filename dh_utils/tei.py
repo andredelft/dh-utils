@@ -12,7 +12,7 @@ RANGE = {
     'Copt': '\u03e2-\u03ef\u2c80-\u2cff\u2e0c\u2e0d',
     'Hebr': '\u05d0-\u05ff\ufb20-\ufb4f',
     'Latn': 'a-zA-Z0-9\u00c0-\u00ff\u1e00-\u1ef9',
-    'Cyrs': '\u0400-\u0482\u048a-\u04ff'
+    'Cyrl': '\u0400-\u0482\u048a-\u04ff\ua640-\ua66e\ua67e-\ua69d'
 }
 
 COMBINING_PUNCT = {
@@ -20,8 +20,8 @@ COMBINING_PUNCT = {
             '\u0670\u06d6-\u06dd\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed',
     'Copt': '\u0300-\u0361',
     'Hebr': '\u0590-\u05cf\ufb1d-\ufb1f',
-    'Latn': '.,()!:?;',
-    'Cyrs': '\u0301\u20dd\u0483-\u0489'
+    'Latn': '.,\(\)!:?;',
+    'Cyrl': '\u0301\u20dd\u0483-\u0489\u2de0-\u2dff\ua66f-\ua67d\ua69e\ua69f'
 }
 
 RE_STR = {
@@ -47,7 +47,7 @@ AVAILABLE_SCRIPTS = list(DEFAULT_LCS.keys())
 def tag(string, script, language_code = '', escape_xml = True):
     if escape_xml:
         string = escape(string)
-    if script not in RE.keys():
+    if script not in AVAILABLE_SCRIPTS:
         raise LanguageNotSupported(
             f'Language "{script}" not (yet) supported, please use one of: '
             + ', '.join(AVAILABLE_SCRIPTS)
@@ -77,7 +77,7 @@ def tag_xml(fname, script, language_code = ''):
             lang_parent = parent.xpath(f'ancestor::*[@xml:lang][1]')
 
         if (not lang_parent) or (lang_parent[0].attrib[f'{XML_NS}lang'] != language_code):
-            new_content = tag(script, new_content, language_code, escape_xml = False)
+            new_content = tag(new_content, script, language_code, escape_xml = False)
 
         # Create XML tree from tagged content and append to existing tree
         try:
