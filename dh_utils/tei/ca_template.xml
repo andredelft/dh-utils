@@ -1,0 +1,16 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:xs="http://relaxng.org/ns/structure/1.0" xmlns:type="application/tei+xml">
+
+<teiHeader>
+  <encodingDesc>
+    {refsDecl}
+  </encodingDesc>
+</teiHeader>
+
+  <text>
+    <body>
+      <div type="commentary" n="{id}" xml:lang="{lang}">
+        {content}
+      </div>
+    </body>
+  </text>
+</TEI>

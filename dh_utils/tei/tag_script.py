@@ -3,6 +3,8 @@ from lxml import etree
 from os import path
 from xml.sax.saxutils import unescape, escape
 
+__all__ = ['LanguageNotSupported', 'tag_script', 'tag_script_from_file']
+
 class LanguageNotSupported(Exception):
     pass
 
@@ -44,7 +46,7 @@ DEFAULT_LCS = {
 
 AVAILABLE_SCRIPTS = list(DEFAULT_LCS.keys())
 
-def tag(string, script, language_code = '', escape_xml = True):
+def tag_script(string, script, language_code = '', escape_xml = True):
     if escape_xml:
         string = escape(string)
     if script not in AVAILABLE_SCRIPTS:
@@ -60,7 +62,7 @@ def tag(string, script, language_code = '', escape_xml = True):
 
 XML_NS = '{http://www.w3.org/XML/1998/namespace}'
 
-def tag_xml(fname, script, language_code = ''):
+def tag_script_from_file(fname, script, language_code = ''):
     if not language_code:
         language_code = DEFAULT_LCS[script]
     tree = etree.parse(fname)
@@ -77,7 +79,7 @@ def tag_xml(fname, script, language_code = ''):
             lang_parent = parent.xpath(f'ancestor::*[@xml:lang][1]')
 
         if (not lang_parent) or (lang_parent[0].attrib[f'{XML_NS}lang'] != language_code):
-            new_content = tag(new_content, script, language_code, escape_xml = False)
+            new_content = tag_script(new_content, script, language_code, escape_xml = False)
 
         # Create XML tree from tagged content and append to existing tree
         try:
