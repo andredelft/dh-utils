@@ -17,13 +17,16 @@ RANGE = {
     'Cyrl': '\u0400-\u0482\u048a-\u04ff\ua640-\ua66e\ua67e-\ua69d'
 }
 
+LTR_MARKS = '\u200e\u202a\u202c\u202d'
+RTL_MARKS = '\u200e\u202b\u202c\u202e'
+
 COMBINING_PUNCT = {
-    'Arab': '\u0600-\u0605\u060c\u060d\u0610-\u061b\u064b-\u065f\u066b\u066c'\
+    'Arab': f'{RTL_MARKS}\u0600-\u0605\u060c\u060d\u0610-\u061b\u064b-\u065f\u066b\u066c'\
             '\u0670\u06d6-\u06dd\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed',
-    'Copt': '\u0300-\u0361',
-    'Hebr': '\u0590-\u05cf\ufb1d-\ufb1f',
-    'Latn': '.,\(\)!:?;',
-    'Cyrl': '\u0301\u20dd\u0483-\u0489\u2de0-\u2dff\ua66f-\ua67d\ua69e\ua69f'
+    'Copt': f'{LTR_MARKS}\u0300-\u0361',
+    'Hebr': f'RTL_MARKS}\u0590-\u05cf\ufb1d-\ufb1f',
+    'Latn': f'{LTR_MARKS}.,\(\)!:?;',
+    'Cyrl': f'{LTR_MARKS}\u0301\u20dd\u0483-\u0489\u2de0-\u2dff\ua66f-\ua67d\ua69e\ua69f'
 }
 
 RE_STR = {
