@@ -29,7 +29,7 @@ COMBINING_PUNCT = {
 DIRECTION_MARKERS = '\u200e\u202a-\u202e'
 
 RE_STR = {
-    script: fr'[{RANGE[script]}{DIRECTION_MARKERS}][\s{RANGE[script]}{COMBINING_PUNCT[script]}]*(?<!\s)'
+    script: fr'[{DIRECTION_MARKERS}]*{RANGE[script]}][\s{RANGE[script]}{COMBINING_PUNCT[script]}{DIRECTION_MARKERS}]*(?<!\s)'
     for script in RANGE.keys()
 }
 
