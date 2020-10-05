@@ -12,7 +12,7 @@ setup(
     version = '0.1.8',
     description = 'Python package containing various utilities relevant in the field of digital humanities.',
     packages = find_packages(),
-    install_requires = ['regex', 'lxml'],
+    install_requires = ['regex', 'lxml', 'anytree'],
     keywords = 'digital humanities utilities unicode tei',
     long_description = long_description,
     long_description_content_type = 'text/markdown',
