@@ -52,6 +52,24 @@ Default language-script codes are used to tag the scripts (stored in `DEFAULT_LC
 >>> t.tag_xml('path/to/file.xml', 'Cyrl', language_code = 'ov-Cyrs')
 ```
 
+
+### Refsdecl generator
+
+To generate refsdecl elements, the generator can be used to create etree xml elements:
+
+```python
+from dh_utils.tei import refsdecl_generator
+
+refs_decl = refsdecl_generator.generate_for_file("./path/to/file")
+refs_decls = refsdecl_generator.generate_for_path("./path/to/files")
+```
+
+It can also be used trough the command line interface:
+
+`python -m dh_utils.tei.refsdecl_generator [--update] [PATH]`
+
+By default, it does not update the file but outputs the refsdecl xml to the terminal. If the `--update` flag is given, the file is updated with the generated refsdecl.
+
 ### [MyCapytain](https://github.com/Capitains/MyCapytain)-compatilble critical apparatus
 
 The Python API [MyCapytain](https://github.com/Capitains/MyCapytain) only serves the main text of a CTS structured text version, and does not support stand-off annotation, bibliographies, critical apparati, etc. To overcome the last problem, we have developed a script that generates a separate text version of the critical apparatus that can be served through [MyCapytain](https://github.com/Capitains/MyCapytain). Brill's [Scholarly Editions](https://dh.brill.com) uses these separate text versions, which can be displayed [in parallel](https://dh.brill.com/scholarlyeditions/reader/urn:cts:latinLit:stoa0023.stoa001.amo-lat2:14.1.1-14.1.5?right=amo-appcrit3).
