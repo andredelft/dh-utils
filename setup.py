@@ -9,10 +9,10 @@ with open(path.join(here, 'README.md')) as f:
 
 setup(
     name = 'dh-utils',
-    version = '0.1.13',
+    version = '0.1.14',
     description = 'Python package containing various utilities relevant in the field of digital humanities.',
     packages = find_packages(),
-    install_requires = ['regex', 'lxml', 'anytree'],
+    install_requires = ['regex', 'lxml', 'anytree', 'cltk'],
     keywords = 'digital humanities utilities unicode tei',
     long_description = long_description,
     long_description_content_type = 'text/markdown',
