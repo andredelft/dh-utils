@@ -8,10 +8,23 @@ $ pip install dh-utils
 
 ## Unicode utilities
 
-Decompose any unicode string:
+Convert Greek beta code to unicode:
 
 ```pycon
 >>> from dh_utils import unicode as u
+>>> u.beta2uni('lo/gos')
+'λόγος'
+```
+
+This is a wrapper of the CLTK converter. We used this converter to also create inverse:
+```pycon
+>>> u.uni2beta('λόγος')
+'lo/gos'
+```
+
+Decompose any unicode string:
+
+```pycon
 >>> u.decompose('λόγος')
 λ U+03bb GREEK SMALL LETTER LAMDA
 ο U+03bf GREEK SMALL LETTER OMICRON

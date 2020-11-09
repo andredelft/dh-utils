@@ -20,16 +20,16 @@ def decompose(string, save_as=''):
     decomp = []
     for char in string:
         if len(hex(ord(char))[2:]) <= 4:
-            hex = 'U+{:>4}'.format(hex(ord(char))[2:]).replace(' ','0')
+            hex_str = 'U+{:>4}'.format(hex(ord(char))[2:]).replace(' ','0')
         else:
-            hex = hex(ord(char)).replace('0x','U+')
+            hex_str = hex(ord(char)).replace('0x','U+')
 
         try:
             name = unicodedata.name(char)
         except ValueError:
             name = ''
 
-        decomp.append(' '.join([char, hex, name]))
+        decomp.append(' '.join([char, hex_str, name]))
     if save_as:
         with open(save_as, 'w') as f:
             f.write('\n'.join(decomp))
@@ -45,7 +45,7 @@ def beta2uni(text_beta):
 def uni2beta(text_uni, normalize=True):
     """ Inverse of beta2uni """
     if normalize:
-        text_uni = unicodedata.normalize('NFC',text_uni)
+        text_uni = unicodedata.normalize('NFC', text_uni)
     text_beta = text_uni.translate(UNI_BETA_TRANS)
     text_beta = text_beta.translate(LATIN_LOWER_TRANS)
     return text_beta
