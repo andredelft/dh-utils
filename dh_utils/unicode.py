@@ -6,7 +6,7 @@ from cltk.corpus.greek.beta_to_unicode import Replacer
 
 FILE_DIR = os.path.split(__file__)[0]
 UNI_BETA_DICT = {}
-for fname in ['BETA_UNI_LOWER', 'BETA_UNI_UPPER']:
+for fname in ['UNI_BETA_LOWER', 'UNI_BETA_UPPER']:
     with open(os.path.join(FILE_DIR, f'{fname}.json')) as f:
         UNI_BETA_DICT.update(json.load(f))
 
