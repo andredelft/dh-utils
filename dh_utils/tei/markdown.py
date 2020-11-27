@@ -5,6 +5,8 @@ from markdown import markdown
 from lxml import etree
 import re
 
+__all__ = ['TEIPostprocessor', 'ToTEI', 'md2tei']
+
 
 class TEIPostprocessor(Postprocessor):
 
