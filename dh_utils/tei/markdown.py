@@ -119,4 +119,4 @@ class ToTEI(Extension):
 
 
 def md2tei(text):
-    return markdown.markdown(text, extensions=[ToTEI()])
+    return markdown(text, extensions=[ToTEI()])
