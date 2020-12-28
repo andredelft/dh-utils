@@ -38,7 +38,7 @@ Decompose any unicode string:
 
 ### Convert markdown to TEI
 
-A basic converter from markdown to TEI has been added. It will convert markdown file like:
+A basic converter from markdown to TEI has been added. It will convert a markdown file like:
 
 ```
 Some paragraph block
@@ -56,11 +56,12 @@ Another paragraph block with _italics_ and __bold__, and:
 * List
 ```
 
-using a snippet like
+using a Python snippet like
+
 ```pycon
->>> from dh_utils import tei as t
+>>> from dh_utils.tei import md2tei
 >>> with open('file.md') as f:
->>>    t.md2tei(f.read())
+>>>    md = md2tei(f.read())
 ```
 
 to the following TEI XML:
@@ -91,7 +92,7 @@ The function `md2tei` is syntactic sugar for the markdown extension `ToTEI`, whi
 >>> markdown('some text', extensions=[ToTEI()]) # Other extensions can be added to this list
 ```
 
-The extension `ToTEI` in turn exists solely of the postprocessor `TEIPostprocessor`, which converts the . It has priority 0, which in most cases means that it will be ran after all other postprocessors have finished. If any other behaviour or prioritization is required, this processor can also be directly imported and used in a custom [markdown extension](https://python-markdown.github.io/extensions/api/).
+The extension `ToTEI` in turn exists solely of the postprocessor `TEIPostprocessor`. It has priority 0, which usually means that it will run after all other postprocessors have finished. If any other behaviour or prioritization is required, the processor `TEIPostprocessor` can also be directly imported (`from dh_utils.tei import TEIPostprocessor`) and used in a custom [markdown extension](https://python-markdown.github.io/extensions/api/).
 
 
 ### Tag languages
