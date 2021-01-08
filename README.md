@@ -148,9 +148,26 @@ The Python API [MyCapytain](https://github.com/Capitains/MyCapytain) only serves
 The following snippet creates such a critapp file from `textgroup.work.edition-extension.xml` located in `path/to/data/textgroup/work` and saves it as `textgroup.work.edition-appcrit1.xml`
 
 ```python
->>> import crit_app as ca
+>>> from dh_utils.tei import crit_app as ca
 >>> data_dir = "path/to/data/textgroup/work"
 >>> filename = "textgroup.work.edition-extension.xml"
 >>> ca_ext = "appcrit1" # Or any other extension
 >>> ca.create(filename, ca_ext, data_dir)
 ```
+
+If a file contains multiple critical apparati, these can be distinguished using `/listApp[@type]`, e.g.:
+
+```xml
+<listApp type="superior">
+  <app/>
+  <app/>
+  ...
+</listApp>
+<listApp type="inferior">
+  <app/>
+  <app/>
+  ...
+</listApp>
+```
+
+Using the above snippet will combine these apparati into one file. If these should be conerted to separate files, one can pass an additional argument `app_type` to `ca.create` (e.g., `ca.create(filename, ca_ext, data_dir app_type="superior")`) to convert an apparatus separately.

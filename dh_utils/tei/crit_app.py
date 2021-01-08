@@ -18,8 +18,8 @@ def parse_urn(fname):
         raise Exception(f'Urn {urn} not of correct format')
 
 def to_string(element):
-    content = etree.tostring(element, encoding = 'unicode')
-    content = regex.sub(fr'xmlns(?:\:[a-zA-Z]+?)?=".+?"\s*','',content) # remove all NS
+    content = etree.tostring(element, encoding='unicode')
+    content = regex.sub(fr'xmlns(?:\:[a-zA-Z]+?)?=".+?"\s*', '', content) # remove all NS
     return content
 
 def recursive_update(dct, passage, value):
@@ -65,10 +65,9 @@ def format_critapp(ca_dict, levels):
             ca_string += f'<{tag}{tp_type} n="{key}">\n{format_critapp(value,levels[1:])}\n</{tag}>\n'
     return ca_string
 
-def create(fname, ca_ext, data_dir = '.', lang = ''):
+def create(fname, ca_ext, data_dir='.', lang='', app_type=None):
     urn, extension = parse_urn(fname)
-    fname = path.join(data_dir,fname)
-    tree = etree.parse(path.join(data_dir,fname))
+    tree = etree.parse(path.join(data_dir, fname))
     root = tree.getroot()
     NS = f'{{{root.nsmap[None]}}}'
     if not lang:
@@ -88,19 +87,22 @@ def create(fname, ca_ext, data_dir = '.', lang = ''):
     urn_wo_ext = regex.sub('-.+?$','',urn)
     print(fr'Searching for {urn_wo_ext}-[\w\-]+?:{passage}')
     re_passage = regex.compile(fr'{urn_wo_ext}-[\w\-]+?:{passage}')
-    apps = etree.ETXPath(f'//{NS}app[@loc]')(root)
+    app_xpath = f'//{NS}app[@loc]'
+    if app_type:
+        app_xpath = f'//{NS}listApp[@type="{app_type}"]' + app_xpath
+    apps = etree.ETXPath(app_xpath)(root)
     ca_dict = collect_apps(apps,re_passage,NS)
 
     ca_string = format_critapp(ca_dict, levels)
 
     # Create new file
-    new_urn = regex.sub(f'{extension}$',f'{ca_ext}',urn)
-    new_fname = regex.sub(f'{extension}(?=.xml$)',f'{ca_ext}',fname)
-    content = template.format(content = ca_string, id = new_urn, refsDecl = refsDecl, lang = lang)
+    new_urn = regex.sub(f'{extension}$', f'{ca_ext}', urn)
+    new_fname = regex.sub(f'{extension}(?=.xml$)', f'{ca_ext}', fname)
+    content = template.format(content=ca_string, id=new_urn, refsDecl=refsDecl, lang=lang)
 
     # Indentation
     tree = etree.fromstring(content)
     etree.indent(tree)
 
-    with open(new_fname,'w') as f:
-        f.write(etree.tostring(tree, encoding = "unicode"))
+    with open(path.join(data_dir, new_fname), 'w') as f:
+        f.write(etree.tostring(tree, encoding="unicode"))
