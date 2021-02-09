@@ -2,7 +2,12 @@ import unicodedata
 import json
 import string
 import os
-from cltk.corpus.greek.beta_to_unicode import Replacer
+try:
+    from cltk.corpus.greek.beta_to_unicode import Replacer
+except ModuleNotFoundError:
+    CLTK_NOT_FOUND = 1
+else:
+    CLTK_NOT_FOUND = 0
 
 FILE_DIR = os.path.split(__file__)[0]
 UNI_BETA_DICT = {}
@@ -38,6 +43,12 @@ def decompose(string, save_as=''):
 
 def beta2uni(text_beta):
     """ Wrapper of the cltk.corpus.greek.beta_to_unicode.Replacer function """
+    if CLTK_NOT_FOUND:
+        print(
+            'CLTK is not found in this environment. In order to use the beta2uni converter,',
+            'install this package with `pip install cltk` or `pip install dh-utils[betacode]`'
+        )
+        return None
     text_beta = text_beta.translate(LATIN_UPPER_TRANS)
     text_uni = Replacer().beta_code(text_beta.upper())
     return text_uni
