@@ -8,21 +8,25 @@ $ pip install dh-utils
 
 ## Unicode utilities
 
-Convert Greek beta code to unicode:
+### Convert Greek beta code to unicode
 
 ```pycon
->>> from dh_utils import unicode as u
+>>> from dh_utils.unicode import beta2uni
 >>> u.beta2uni('lo/gos')
 'λόγος'
 ```
 
 This is a wrapper of the CLTK converter. We used this converter to also create inverse:
+
 ```pycon
->>> u.uni2beta('λόγος')
+>>> from dh_utils.unicode import uni2beta
+>>> uni2beta('λόγος')
 'lo/gos'
 ```
 
-Decompose any unicode string:
+NB: Since [cltk](https://pypi.org/project/cltk/) and its dependency [nltk](https://pypi.org/project/nltk/) are relatively large, cltk is added as an optional dependency. To use the `beta2uni` converter, either install cltk separately using `pip install cltk` or install dh-utils including this optional depency with `pip install dh-utils[betacode]`.
+
+### Decompose a unicode string
 
 ```pycon
 >>> u.decompose('λόγος')
