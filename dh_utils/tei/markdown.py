@@ -4,6 +4,7 @@ from markdown import markdown
 
 from lxml import etree
 import re
+from namedentities import unicode_entities
 
 __all__ = ['TEIPostprocessor', 'ToTEI', 'md2tei']
 
@@ -34,6 +35,7 @@ class TEIPostprocessor(Postprocessor):
         root_tag = 'root'
 
         # A dirty namespace hack
+        text = unicode_entities(text)
         text = text.replace('{http://www.w3.org/XML/1998/namespace}', 'xml:')
 
         self.tree = etree.fromstring(f'<{root_tag}>{text}</{root_tag}>')
