@@ -103,7 +103,7 @@ The extension `ToTEI` in turn exists solely of the postprocessor `TEIPostprocess
 
 Tag languages in a given string based on its script:
 
-```pycon
+```python
 >>> from dh_utils.tei import tag_script
 >>> tag_script('A line contaning the hebrew אגוז מלך inline', 'Hebr')
 'A line contaning the hebrew <foreign xml:lang="he-Hebr">אגוז מלך</foreign> inline'
@@ -111,14 +111,14 @@ Tag languages in a given string based on its script:
 
 It is also possible to tag a given language based on its script in a TEI XML document (NB: file will be overwritten!):
 
-```pycon
+```python
 >>> from dh_utils.tei import tag_script_from_file
 >>> tag_script_from_file('path/to/file.xml', 'Arab')
 ```
 
 The available scripts are stored in `dh_utils.tei.AVAILABLE_SCRIPTS` and are enumerated below:
 
-```pycon
+```python
 >>> from dh_utils.tei import AVAILABLE_SCRIPTS
 >>> AVAILABLE_SCRIPTS
 ['Arab', 'Copt', 'Hebr', 'Latn', 'Cyrl']
@@ -126,7 +126,7 @@ The available scripts are stored in `dh_utils.tei.AVAILABLE_SCRIPTS` and are enu
 
 Default language-script codes are used to tag the scripts (stored in `DEFAULT_LCS`), which can be adjusted using the `language_code` keyword argument:
 
-```pycon
+```python
 >>> t.tag_script_from_file('path/to/file.xml', 'Cyrl', language_code = 'ov-Cyrs')
 ```
 
