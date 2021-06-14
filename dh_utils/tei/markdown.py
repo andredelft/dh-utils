@@ -9,6 +9,10 @@ from namedentities import unicode_entities
 __all__ = ['TEIPostprocessor', 'ToTEI', 'md2tei']
 
 
+class TEIPostProcessorError(Exception):
+    pass
+
+
 class TEIPostprocessor(Postprocessor):
 
     def __init__(self, md, indent=False, with_root=False):
@@ -38,7 +42,27 @@ class TEIPostprocessor(Postprocessor):
         text = unicode_entities(text)
         text = text.replace('{http://www.w3.org/XML/1998/namespace}', 'xml:')
 
-        self.tree = etree.fromstring(f'<{root_tag}>{text}</{root_tag}>')
+        text = f'<{root_tag}>{text}</{root_tag}>'
+
+        try:
+            self.tree = etree.fromstring(text)
+        except etree.XMLSyntaxError as e:
+            lines = text.split('\n')
+            error_lineno = e.lineno - 1
+            first_lineno = error_lineno - 1 if error_lineno > 0 else 0
+            last_lineno = error_lineno + 2 if error_lineno < len(lines) - 1 else len(lines)
+
+            context = []
+            for i in range(first_lineno, last_lineno):
+                if i == error_lineno:
+                    context.append(f' ---> {lines[i]}')
+                else:
+                    context.append(f'{i+1:>4d}. {lines[i]}')
+            context = '\n'.join(context)
+
+            raise TEIPostProcessorError(
+                f'XML syntax error encountered from markdown output: {e}\nContext:\n{context}'
+            ) from e
 
         # heads (from old script, not sure if this is actually encountered, AvD)
         for el in self.tree.xpath('//head'):
