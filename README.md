@@ -10,15 +10,15 @@ $ pip install dh-utils
 
 ### Convert Greek beta code to unicode
 
-```pycon
+```python
 >>> from dh_utils.unicode import beta2uni
->>> u.beta2uni('lo/gos')
+>>> beta2uni('lo/gos')
 'λόγος'
 ```
 
 This is a wrapper of the CLTK converter. We used this converter to also create inverse:
 
-```pycon
+```python
 >>> from dh_utils.unicode import uni2beta
 >>> uni2beta('λόγος')
 'lo/gos'
@@ -62,7 +62,7 @@ Another paragraph block with _italics_ and __bold__, and:
 
 using a Python snippet like
 
-```pycon
+```python
 >>> from dh_utils.tei import md2tei
 >>> with open('file.md') as f:
 >>>    md = md2tei(f.read())
@@ -90,7 +90,7 @@ to the following TEI XML:
 
 The function `md2tei` is syntactic sugar for the markdown extension `ToTEI`, which can be used in combination with other extensions as follows:
 
-```pycon
+```python
 >>> from markdown import markdown
 >>> from dh_utils.tei import ToTEI
 >>> markdown('some text', extensions=[ToTEI()]) # Other extensions can be added to this list
