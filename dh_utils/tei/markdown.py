@@ -6,10 +6,10 @@ from lxml import etree
 import re
 from namedentities import unicode_entities
 
-__all__ = ['TEIPostprocessor', 'ToTEI', 'md2tei']
+__all__ = ['TEIPostprocessor', 'TEIPostprocessorError', 'ToTEI', 'md2tei']
 
 
-class TEIPostProcessorError(Exception):
+class TEIPostprocessorError(Exception):
     pass
 
 
@@ -60,7 +60,7 @@ class TEIPostprocessor(Postprocessor):
                     context.append(f'{i+1:>4d}. {lines[i]}')
             context = '\n'.join(context)
 
-            raise TEIPostProcessorError(
+            raise TEIPostprocessorError(
                 f'XML syntax error encountered from markdown output: {e}\nContext:\n{context}'
             ) from e
 
